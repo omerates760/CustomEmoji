@@ -7,8 +7,6 @@ import android.view.View
 import kotlin.math.min
 
 class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
-    // Paint object for coloring and styling
-    // 1
     companion object {
         private const val DEFAULT_FACE_COLOR = Color.YELLOW
         private const val DEFAULT_EYES_COLOR = Color.BLACK
@@ -30,7 +28,6 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val mouthPath = Path()
     private var size = 0
 
-    // 3
     var happinessState = HAPPY
         set(state) {
             field = state
@@ -38,7 +35,6 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
             invalidate()
         }
 
-    // 5
     init {
         paint.isAntiAlias = true
         setupAttributes(attrs)
@@ -79,20 +75,15 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        // 1
         size = Math.min(measuredWidth, measuredHeight)
-// 2
         setMeasuredDimension(size, size)
     }
 
     private fun drawEyes(canvas: Canvas?) {
-// 1
         paint.color = eyesColor
         paint.style = Paint.Style.FILL
-// 2
         val leftEyeRect = RectF(size * 0.32f, size * 0.23f, size * 0.43f, size * 0.50f)
         canvas?.drawOval(leftEyeRect, paint)
-// 3
         val rightEyeRect = RectF(size * 0.57f, size * 0.23f, size * 0.68f, size * 0.50f)
         canvas?.drawOval(rightEyeRect, paint)
 
@@ -100,17 +91,14 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private fun drawMouth(canvas: Canvas?) {
 
-        // Clear
         mouthPath.reset()
 
         mouthPath.moveTo(size * 0.22f, size * 0.7f)
 
         if (happinessState == HAPPY) {
-            // Happy mouth path
             mouthPath.quadTo(size * 0.5f, size * 0.80f, size * 0.78f, size * 0.7f)
             mouthPath.quadTo(size * 0.5f, size * 0.90f, size * 0.22f, size * 0.7f)
         } else {
-            // Sad mouth path
             mouthPath.quadTo(size * 0.5f, size * 0.50f, size * 0.78f, size * 0.7f)
             mouthPath.quadTo(size * 0.5f, size * 0.60f, size * 0.22f, size * 0.7f)
         }
@@ -118,7 +106,6 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.color = mouthColor
         paint.style = Paint.Style.FILL
 
-        // Draw mouth path
         canvas?.drawPath(mouthPath, paint)
     }
 
@@ -132,7 +119,5 @@ class FaceEmoji(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = borderWidth
         canvas?.drawCircle(size / 2f, size / 2f, radius - borderWidth, paint)
-
     }
-
 }
